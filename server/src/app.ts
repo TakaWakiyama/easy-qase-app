@@ -1,8 +1,20 @@
-var createError = require("http-errors");
+import createError from "http-errors";
 import express, { Express, Request, Response } from "express";
+import logger from "morgan";
 // var path = require('path');
 // var cookieParser = require('cookie-parser');
-var logger = require("morgan");
+const { graphqlHTTP } = require('express-graphql');
+import { buildSchema } from 'graphql';
+// GraphQL schema
+const schema = buildSchema(`
+    type Query {
+        message: String
+    }
+`);
+// Root resolver
+const root = {
+    message: () => 'Hello World!'
+};
 
 var app = express();
 
@@ -11,7 +23,11 @@ app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser());
 
-// app.use('/', indexRouter);
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: root,
+  graphiql: true
+}));
 
 app.get("/", (req: Request, res: Response) => {
   console.log(req);

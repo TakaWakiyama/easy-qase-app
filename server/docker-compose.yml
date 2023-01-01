@@ -2,7 +2,7 @@ version: '3'
 services:
     app:
         # 起動イメージ
-        image: node:16
+        build: .
         env_file:
             - .env
         # 環境変数
@@ -15,9 +15,7 @@ services:
         # ホスト側のsrcをコンテナのappにマウント
         volumes:
             - ./src:/app
-            - ./node_modules:/app/node_modules
-            - ./package.json:/app/package.json
         # 起動時のカレントフォルダ
         working_dir: /app
         # 起動後に実行するコマンド
-        command: sh -c 'npm install; npx tsc; npm run dev'
+        command: sh -c 'npx tsc; npm run dev'

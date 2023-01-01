@@ -1,11 +1,8 @@
-FROM node:16
+FROM node:16-alpine
+
 WORKDIR /app
-
-COPY ./src /app
-COPY ./package.json  /
-
+COPY . .
 RUN npm install
 EXPOSE 8080
 
-ENTRYPOINT [ "npm" ]
-CMD [ "start" ]
+CMD ["sleep", "infinity"]
